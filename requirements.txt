@@ -1,0 +1,5 @@
+numpy
+pyspark
+matplotlib==3.4.3
+pandas==1.5.0
+jupyter==1.0.0
