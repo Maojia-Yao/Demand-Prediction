@@ -169,6 +169,49 @@ def logout():
 
 # --- End of login, register and logout ---
 
+# --- Start of profile ---
+
+@app.route("/profile", methods=["GET"])
+def query_profile():
+    """Query profile details"""
+    id = session["userid"]
+    if request.method == "GET":
+        # Go to the database to query the profile details based on ID
+        user = User.query.filter_by(id=id).first_or_404()
+        # Render "profile" page
+        return rt("profile.html", user=user)
+
+@app.route("/profile/update/<id>", methods=["GET", "POST"])
+def update_profile(id):
+    """Update Profile details"""
+    if request.method == "GET":
+        # Go to the database to query the profile details based on ID
+        user = User.query.filter_by(id=id).first_or_404()
+        # Render the HTML template of the "update_profile" page
+        return rt("update_profile.html", user=user)
+    else:
+        # Get the requested profile details
+        nickname = request.form["nickname"]
+        occupation = request.form["occupation"]
+        educational_background = request.form["educational_background"]
+        password = request.form["password"]
+
+        # Update profile details
+        user = User.query.filter_by(id=id).update(
+            {
+                "nickname": nickname,
+                "occupation": occupation,
+                "educational_background": educational_background,
+                "password": password,
+            }
+        )
+        # Must be submitted to take effect
+        db.session.commit()
+        # After the update is complete, redirect to the "profile" page
+        return redirect("/profile")
+
+# --- End of profile ---
+
 
 
 if __name__ == "__main__":
