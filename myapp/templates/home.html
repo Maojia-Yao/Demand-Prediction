@@ -54,87 +54,72 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="#">Home</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="/profile">Profile <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/profile">Profile</a>
           </li>
           
           {% if session['isadmin'] %}
           <li class="nav-item active">
-            <a class="nav-link" href="/blogs/create">Create Predict_Category <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/products">Manage Predict_Category</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="/blogs">Manage Predict_Category <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/products/create">Create Predict_Category</a>
           </li>
-          <li class="nav-item active" style="margin-right: 20px;">
+          <li class="nav-item active mr-5">
             <a class="nav-link" href="http://localhost:8888/notebooks/predict_model.ipynb">
               <strong><span style="color: red;">ML_colab</span></strong>
               <span class="sr-only">(current)</span>
             </a>
           </li>
           {% endif %}
-          
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          
+
           <li class="nav-item active">
             <form class="form-inline my-2 my-lg-0 navbar-right" action="/home" method="POST">
-              <div class="form-group">
-                <input type="text" name="keyword" id="keyword" placeholder="Let search" class="form-control" autofocus>&nbsp;
-              </div>&nbsp;&nbsp;
-              <input type="submit" value="Let search" id="btnSearch" class="btn btn-success">
+              <div class="form-group mr-2">
+                <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Enter keywords">
+              </div>
+              <input type="submit" class="btn btn-success" id="btnSearch" value="Search">
             </form>
           </li>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </ul>
-        
+
         {% if not session['logged_in'] %}
         <form class="form-inline my-2 my-lg-0 navbar-right" action="/login" method="POST">
-          <div class="form-group">
-            <input type="text" name="email" placeholder="Email" class="form-control" autofocus>&nbsp;
+          <div class="form-group mr-2">
+            <input type="text" class="form-control" name="email" placeholder="Email">
           </div>
-          <div class="form-group">
-            <input type="password" name="password" placeholder="Password" class="form-control">&nbsp;
+          <div class="form-group mr-2">
+            <input type="password" class="form-control" name="password" placeholder="Password">
           </div>
-          <input type="submit" value="Sign in" class="btn btn-success">
+          <input type="submit" class="btn btn-success" value="Login">
         </form>
         {% else %}
-        <a class="nav-link" href="/logout">logout <span class="sr-only">(current)</span></a>
-        <a class="nav-link" href="#">{{ user.nickname }} logined <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="/logout">Logout</a>
+        <a class="nav-link" href="#">{{ user.nickname }} logined</a>
         {% endif %}
       </div>
     </nav>
     
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
-      <div class="container">
+      <div class="container d-flex justify-content-center"> <!-- Flex container to center align content -->
         <div class="media">
-          
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          
           <div class="media-left">
             <h1 class="media-heading">Demand Forecast</h1>
           </div>
-          <span class="media-left">
+          <div class="media-left ml-5">
             <img src="/static/images/company.png" style="height:73px;width:74px;">
-          </span>
-          <div class="media-body">
+          </div>
+          <div class="media-body ml-5">
             <h1 class="media-heading">Inventory Management</h1>
           </div>
         </div>
       </div>
     </div>
     
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3"></div>
-      </div>
-    </div>
-    
-    <div class="row">
+    <div class="row mt-5 mb-5">
       {% for r in listing %}
       <div class="col-md-6">
         <div class="row">
@@ -144,7 +129,7 @@
                 <h5 class="card-title">{{ r.title|safe }}</h5>
                 <p class="card-text">{{ r.text[:200]|safe }} ...</p>
               </div>
-              <a href="/blogs/{{r.id}}">
+              <a href="/products/{{r.id}}">
                 <img src="/static/images/{{ r.id % 10 }}.jpg" class="card-img-bottom img-fluid" style="width: 100%; height: 500px;">
               </a>
             </div>
@@ -153,10 +138,6 @@
       </div>
       {% endfor %}
     </div>
-    
-    <br/><br/>
-    <br/><br/>
-    <br/><br/>
     
     <div class="row">
       {% for r in range(1,3) %}
@@ -182,7 +163,7 @@
         <form class="form-horizontal" action="/register" method="POST">
           <div class="form-group">
             <div class="col-sm-9">
-              <input type="email" class="form-control" id="email" name="email" placeholder="Email address/Username">
+              <input type="email" class="form-control" id="email" name="email" placeholder="Email address / Username">
             </div>
           </div>
           <div class="form-group">
@@ -204,6 +185,7 @@
       </div>
     </div>
     
+    <!-- Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 

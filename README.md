@@ -14,7 +14,7 @@ jupyter notebook predict_model.ipynb
 
 5.
 Open another terminal to execute:
-python3 wsgi.py
+python3 app.py
 
 6.
 Open the browser and access the following URL:

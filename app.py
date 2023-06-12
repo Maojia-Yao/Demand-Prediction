@@ -30,8 +30,8 @@ db = SQLAlchemy(app)
 
 admin_list = ["admin@gmail.com", "ymj@gmail.com"]
 
-class User(db.Model):
-    """Create user table"""
+class Users(db.Model):
+    """Create users table"""
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     nickname = db.Column(db.String(80))
@@ -45,8 +45,8 @@ class User(db.Model):
         self.password = password
 
 
-class Blog(db.Model):
-    """Create blog table"""
+class Products(db.Model):
+    """Create products table"""
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     text = db.Column(db.Text)
@@ -92,23 +92,23 @@ class PageResult:
 @app.route("/home/<int:pagenum>", methods=["GET"])
 @app.route("/home", methods=["GET", "POST"])
 def home(pagenum=1):
-    blogs = Blog.query.all()
-    blogs = list(reversed(blogs))
+    products = Products.query.all()
+    products = list(reversed(products))
     user = None
     if "userid" in session:
-        user = User.query.filter_by(id=session["userid"]).first()
+        user = Users.query.filter_by(id=session["userid"]).first()
 
     # Search for the title and text keywords of the predicte_category
     if request.method == "POST":
         search_list = []
         keyword = request.form["keyword"]
         if keyword is not None:
-            for blog in blogs:
-                if keyword in blog.title or keyword in blog.text:
-                    blog.title = replace_html_tag(blog.title, keyword)
-                    blog.text = replace_html_tag(blog.text, keyword)
+            for products in products:
+                if keyword in products.title or keyword in products.text:
+                    products.title = replace_html_tag(products.title, keyword)
+                    products.text = replace_html_tag(products.text, keyword)
                     
-                    search_list.append(blog)
+                    search_list.append(products)
 
         return rt(
             "home.html",
@@ -117,7 +117,7 @@ def home(pagenum=1):
             keyword=keyword,
         )
     
-    return rt("home.html", listing=PageResult(blogs, pagenum), user=user)
+    return rt("home.html", listing=PageResult(products, pagenum), user=user)
 
 # --- End of Home ---
 
@@ -129,7 +129,7 @@ def login():
     email = request.form.get("email")
     password = request.form.get("password")
     # Go to the database to query the email and password
-    data = User.query.filter_by(username=email, password=password).first()
+    data = Users.query.filter_by(username=email, password=password).first()
     if data is not None:
         session["logged_in"] = True
         if email in admin_list:
@@ -149,13 +149,13 @@ def register():
         flash("The password is different from the confirmation password, please try again!")
         return redirect(url_for("home", pagenum=1))
     # Go to the database to query the email
-    data = User.query.filter_by(username=email).first()
+    data = Users.query.filter_by(username=email).first()
     # If the email is already in the database
     if data is not None:
         flash("This email has already been registered, please try another one!")
         return redirect(url_for("home", pagenum=1))
     print("Register", email, pw1)
-    new_user = User(username=email, password=pw1)
+    new_user = Users(username=email, password=pw1)
     db.session.add(new_user)
     db.session.commit()
 
@@ -177,7 +177,7 @@ def query_profile():
     id = session["userid"]
     if request.method == "GET":
         # Go to the database to query the profile details based on ID
-        user = User.query.filter_by(id=id).first_or_404()
+        user = Users.query.filter_by(id=id).first_or_404()
         # Render "profile" page
         return rt("profile.html", user=user)
 
@@ -186,7 +186,7 @@ def update_profile(id):
     """Update Profile details"""
     if request.method == "GET":
         # Go to the database to query the profile details based on ID
-        user = User.query.filter_by(id=id).first_or_404()
+        user = Users.query.filter_by(id=id).first_or_404()
         # Render the HTML template of the "update_profile" page
         return rt("update_profile.html", user=user)
     else:
@@ -197,7 +197,7 @@ def update_profile(id):
         password = request.form["password"]
 
         # Update profile details
-        user = User.query.filter_by(id=id).update(
+        user = Users.query.filter_by(id=id).update(
             {
                 "nickname": nickname,
                 "occupation": occupation,
@@ -212,6 +212,37 @@ def update_profile(id):
 
 # --- End of profile ---
 
+
+# --- Start of predict_category products (CRUD) ---
+
+@app.route("/products", methods=["GET"])
+def manage_products():
+    """Query the list of predict categories"""
+    products = Products.query.all()
+
+    # Render the target file of the "list_blogs" page, and pass in the blogs parameter
+    return rt("manage_products.html", products=products)
+
+@app.route("/products/create", methods=["GET", "POST"])
+def create_products():
+    """Create predict category"""
+    if request.method == "GET":
+        # If it is a GET request, render the creation page
+        return rt("create_products.html")
+    else:
+        # Get request data from the form request body
+        title = request.form["title"]
+        text = request.form["text"]
+
+        # Create a predict category object, title and text
+        products = Products(title=title, text=text)
+        db.session.add(products)
+        # Must be submitted to take effect
+        db.session.commit()
+        # After the creation is complete, redirect to the "list_blogs" page
+        return redirect("/products")
+
+# --- End of predict category blog (CRUD) ---
 
 
 if __name__ == "__main__":
