@@ -5,7 +5,7 @@ Install python3.6 or above version
 Can be done or not (create a python3 virtual directory to isolate the mutual influence between different version libraries)
 
 3. 
-Enter the project directory under the terminal, run in the requirements.txt directory:
+requirements.txt contains all the libraries that need to be installed to run this program. Enter the project directory under the terminal, and run in the requirements.txt directory:
 pip3 install --upgrade -r requirements.txt
 
 4.
