@@ -1,10 +1,8 @@
 import os
-
 from flask import Flask
 
-
 # Initialize the Flask application
-def create_app(test_config=None):
+def create_app():
     """Construct the core application"""
 
     # Create the Flask app object

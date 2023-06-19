@@ -40,19 +40,21 @@
         <div class="col-md-6">
           <h1 class="text-center">Create Predict Category</h1>
           
-          <form action="/products/create" method="POST" class="mt-4 ml-3">
-            <div class="form-group">
-              <label for="title">Title: </label>
-              <input type="text" class="form-control" id="title" name="title">
-            </div>
-            <div class="form-group">
-              <label for="content">Content: </label>
-              <textarea class="form-control" rows="4" id="content" name="text"></textarea>
-            </div>
-            <div class="form-group">
-              <input type="submit" class="btn btn-primary" value="Create">
-            </div>
-          </form>
+          <div class="form-group mt-4">
+            <form action="/products/create" method="POST">
+              <div class="form-group">
+                <label for="title">Title: </label>
+                <input type="text" class="form-control" id="title" name="title">
+              </div>
+              <div class="form-group">
+                <label for="content">Content: </label>
+                <textarea class="form-control" rows="4" id="content" name="text"></textarea>
+              </div>
+              <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Create">
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

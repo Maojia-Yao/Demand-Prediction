@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Update Profile</title>
+    <title>Update Predict Category</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
@@ -29,7 +29,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/profile">Back</a>
+            <a class="nav-link" href="javascript:history.back()">Back</a>
           </li>
         </ul>
       </div>
@@ -38,27 +38,21 @@
     <div class="container mt-4">
       <div class="row justify-content-center">
         <div class="col-md-6">
-          <h1 class="text-center">Update Profile</h1>
-
+          <h1 class="text-center">Update Predict Category</h1>
+          
           <div class="form-group mt-4">
-            <form action="/profile/update/{{user.id}}" method="POST">
+            <form action="/products/update/{{products.id}}" method="POST">
               <div class="form-group">
-                <label for="nickname">Name:</label>
-                <input type="text" class="form-control" id="nickname" name="nickname" value="{{user.nickname}}">
+                <label for="title">Title: </label>
+                <input type="text" class="form-control" id="title" name="title" value="{{products.title}}">
               </div>
               <div class="form-group">
-                <label for="occupation">Occupation:</label>
-                <input type="text" class="form-control" id="occupation" name="occupation" value="{{user.occupation}}">
+                <label for="content">Content: </label>
+                <textarea class="form-control" rows="4" id="content" name="text">{{products.text}}</textarea>
               </div>
               <div class="form-group">
-                <label for="education">Educational Background:</label>
-                <input type="text" class="form-control" id="education" name="educational_background" value="{{user.educational_background}}">
+                <input type="submit" class="btn btn-primary" value="Update">
               </div>
-              <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password" value="{{user.password}}">
-              </div>
-              <input type="submit" class="btn btn-primary btn-block" value="Submit">
             </form>
           </div>
         </div>
@@ -71,4 +65,5 @@
     
   </body>
 </html>
+
 

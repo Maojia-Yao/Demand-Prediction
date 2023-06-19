@@ -1,13 +1,8 @@
-"""Flask configuration variables."""
-from os import environ, path, getenv
-from dotenv import load_dotenv
-
-# Load environment variables from file .env, stored in this directory
-load_dotenv()
-
+"""Flask configuration variables"""
+from os import environ
 
 class Config:
-    """Set Flask configuration from .env file"""
+    """Set Flask configuration from environment variables"""
 
     # Flask configuration
     FLASK_APP = environ.get("FLASK_APP")

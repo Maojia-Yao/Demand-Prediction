@@ -5,10 +5,13 @@ from flask import request
 from flask import url_for
 from flask import redirect, session
 from flask import render_template as rt
+from flask import flash
 from flask_sqlalchemy import SQLAlchemy
 
-from flask_cors import CORS
-from flask import flash
+import pandas as pd
+import plotly.express as px
+from flask import render_template_string
+
 from myapp import create_app
 
 # Create Flask app
@@ -17,15 +20,12 @@ app.secret_key = "ABCabc123"
 app.debug = True
 
 
-
-CORS(app)
-
 # --- Start of Database ---
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.abspath(
     "myapp/database/database.db"
 )
-# Defense point 1: prevent sql-inject, not practical sql injection, sqlchemy makes the code ORM, safe execution
+# Prevent sql-inject, not practical sql injection, sqlchemy makes the code ORM, safe execution
 db = SQLAlchemy(app)
 
 admin_list = ["admin@gmail.com", "ymj@gmail.com"]
@@ -220,7 +220,7 @@ def manage_products():
     """Query the list of predict categories"""
     products = Products.query.all()
 
-    # Render the target file of the "list_blogs" page, and pass in the blogs parameter
+    # Render the target file of the "manage_products" page, and pass in the products parameter
     return rt("manage_products.html", products=products)
 
 @app.route("/products/create", methods=["GET", "POST"])
@@ -239,10 +239,84 @@ def create_products():
         db.session.add(products)
         # Must be submitted to take effect
         db.session.commit()
-        # After the creation is complete, redirect to the "list_blogs" page
+        # After the creation is complete, redirect to the "manage_products" page
         return redirect("/products")
 
+@app.route("/products/<id>", methods=["GET", "DELETE"])
+def query_products(id):
+    """Query Predict_Category details, delete Predict_Category"""
+    if request.method == "GET":
+        # Go to the database to query predict category details based on ID
+        products = Products.query.filter_by(id=id).first_or_404()
+        # Render "query_products" page
+        return rt("query_products.html", products=products)
+    else:
+        # Delete the predict_category
+        products = Products.query.filter_by(id=id).delete()
+        # Must be submitted to take effect
+        db.session.commit()
+        # Return 204 normal response, otherwise the page ajax will report an error
+        return "", 204
+
+@app.route("/products/update/<id>", methods=["GET", "POST"])
+def update_products(id):
+    """Update Predict Category"""
+    if request.method == "GET":
+        # Go to the database to query predict category details based on ID
+        products = Products.query.filter_by(id=id).first_or_404()
+        # Render the HTML template of the "update_products" page
+        return rt("update_products.html", products=products)
+    else:
+        # Get the title and text of the requested predict category
+        title = request.form["title"]
+        text = request.form["text"]
+
+        # Update the title and text of the predict category
+        products = Products.query.filter_by(id=id).update({"title": title, "text": text})
+        # Must be submitted to take effect
+        db.session.commit()
+        # After the update is complete, redirect to the "query_products" page
+        return redirect("/products/{id}".format(id=id))
+
 # --- End of predict category blog (CRUD) ---
+
+
+# --- Start of visualization of prediction results ---
+
+@app.route("/plot_demand/<string:material>")
+def plot_demand(material):
+    material = material.lower()
+    if material == "aggregate":
+        file_path = "data/Aggregate/predictions_2023.csv"
+        title = "Demand Prediction for 2023 (Aggregate)"
+    elif material == "concrete":
+        file_path = "data/Concrete/predictions_2023.csv"
+        title = "Demand Prediction for 2023 (Concrete)"
+    else:
+        return "Invalid material. Please choose 'Aggregate' or 'Concrete'."
+
+    # Read forecast data from CSV file
+    predictions_2023_df = pd.read_csv(file_path)
+
+    # Create Interactive Line Charts with Plotly
+    fig = px.line(predictions_2023_df, x='timestamp', y='prediction', title=title)
+
+    # Convert graphics to HTML
+    plot_html = fig.to_html(full_html=False)
+
+    return render_template_string(f"""
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>{title}</title>
+        </head>
+        <body>
+            {plot_html}
+        </body>
+    </html>
+    """)
+
+# --- End of visualization of prediction results ---
 
 
 if __name__ == "__main__":
