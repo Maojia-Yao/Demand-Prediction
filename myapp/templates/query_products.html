@@ -38,7 +38,7 @@
         <h3>{{products.title}}</h3>
         <p>{{products.text}}</p>
         <figure>
-          <img src="/static/images/{{products.id % 10}}.jpg" class="img-fluid" style="height:250px;width:500px;">
+          <img src="{{ url_for('static', filename='images/' + products.image) }}" class="img-fluid" style="height:250px;width:500px;">
         </figure>
         <span>Predict Future:</span>
         <a href="/plot_demand/{{products.title}}"> {{products.title}} </a>

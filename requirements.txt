@@ -3,8 +3,7 @@ pyspark
 matplotlib==3.4.3
 pandas==1.5.0
 Flask
-python-dotenv
-flask-cors
 flask_sqlalchemy
 requests
 Jinja2==3.1.2
+plotly

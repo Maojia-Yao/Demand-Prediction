@@ -7,6 +7,7 @@ from flask import redirect, session
 from flask import render_template as rt
 from flask import flash
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
 
 import pandas as pd
 import plotly.express as px
@@ -44,17 +45,18 @@ class Users(db.Model):
         self.username = username
         self.password = password
 
-
 class Products(db.Model):
     """Create products table"""
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     text = db.Column(db.Text)
+    image = db.Column(db.String(255))
 
-    def __init__(self, title, text):
+    def __init__(self, title, text, image=None):
         """Initialization method"""
         self.title = title
         self.text = text
+        self.image = image
 
 # --- End of Database ---
 
@@ -233,14 +235,23 @@ def create_products():
         # Get request data from the form request body
         title = request.form["title"]
         text = request.form["text"]
+        image = request.files["image"]
 
-        # Create a predict category object, title and text
-        products = Products(title=title, text=text)
-        db.session.add(products)
-        # Must be submitted to take effect
-        db.session.commit()
-        # After the creation is complete, redirect to the "manage_products" page
-        return redirect("/products")
+        if '.' in image.filename and image.filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']:
+            # save the image file
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            # Create a predict category object, title and text and image
+            products = Products(title=title, text=text, image=filename)
+            db.session.add(products)
+            # Must be submitted to take effect
+            db.session.commit()
+            # After the creation is complete, redirect to the "manage_products" page
+            return redirect("/products")
+        
+        return redirect(request.url)
+
 
 @app.route("/products/<id>", methods=["GET", "DELETE"])
 def query_products(id):
@@ -270,9 +281,19 @@ def update_products(id):
         # Get the title and text of the requested predict category
         title = request.form["title"]
         text = request.form["text"]
-
-        # Update the title and text of the predict category
-        products = Products.query.filter_by(id=id).update({"title": title, "text": text})
+        image = request.files["image"]
+        
+        if '.' in image.filename and image.filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']:
+            # save the image file
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            
+            # Update the title and text and image of the predict category
+            products = Products.query.filter_by(id=id).update({"title": title, "text": text, "image": filename})
+        else:
+            # Update the title and text only if the image is not valid or not provided
+            products = Products.query.filter_by(id=id).update({"title": title, "text": text})
+            
         # Must be submitted to take effect
         db.session.commit()
         # After the update is complete, redirect to the "query_products" page

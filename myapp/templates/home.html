@@ -130,7 +130,7 @@
                 <p class="card-text">{{ r.text[:200]|safe }} ...</p>
               </div>
               <a href="/products/{{r.id}}">
-                <img src="/static/images/{{ r.id % 10 }}.jpg" class="card-img-bottom img-fluid" style="width: 100%; height: 500px;">
+                <img src="{{ url_for('static', filename='images/' + r.image) }}" class="card-img-bottom img-fluid" style="width: 100%; height: 500px;">
               </a>
             </div>
           </div>

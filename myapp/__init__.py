@@ -10,5 +10,11 @@ def create_app():
 
     # Configure the app from configuration file settings
     app.config.from_object('config.Config')
+    
+    # Configuring file upload settings
+    UPLOAD_FOLDER = 'myapp/static/images'
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
 
     return app
