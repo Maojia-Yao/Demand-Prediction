@@ -1,0 +1,83 @@
+commit c5a4b0b7585a8c178d15dbc567dbb0a988037bbc
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Mon Jun 26 20:52:40 2023 +1200
+
+    add the github_link.txt file
+
+commit db4817cdc0717f1fe52a86b4d0541d7b31f0822b
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Mon Jun 26 20:27:21 2023 +1200
+
+    Remove .DS_Store files
+
+commit 39589afbea1ff13053209c59cf4df9e47df43131
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Mon Jun 26 12:03:34 2023 +1200
+
+    Changed the readme file a bit
+
+commit d2498a9346e50d143fcb62274e6105211bb22a22
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Fri Jun 23 17:12:13 2023 +1200
+
+    change profle page a bit
+
+commit 38939abbaa42fcbf145b0874ba303db0a663a5fb
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Fri Jun 23 17:07:42 2023 +1200
+
+    changed the homepage a bit
+
+commit a44ad020677b207ea29b4352068189b9414bb517
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Thu Jun 22 12:56:08 2023 +1200
+
+    image changed
+
+commit a239635d7a42c171e95eb2c03110df9ddfcc5909
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Wed Jun 21 14:47:56 2023 +1200
+
+    added the function of upload images
+
+commit c1c4f1f5a5d242a2dd0e94021d8b7a9111697ec5
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Mon Jun 19 12:49:04 2023 +1200
+
+    added readme instructions
+
+commit e3a87507c43f8c34b05d29957b024d45017756ab
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Mon Jun 19 12:35:34 2023 +1200
+
+    added query products, update products and visualization functions
+
+commit 5acd4652a857480de3a2e5ed6d017605bba57b2d
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Mon Jun 12 16:17:11 2023 +1200
+
+    added two products pages
+
+commit 8261047863bd450903bc023479b147d522a2f8d1
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Sat Jun 10 15:25:26 2023 +1200
+
+    added the profile and update_profile pages
+
+commit 9897ed42fc540b871eddbb6afa272619d32ef62b
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Mon Jun 5 15:29:07 2023 +1200
+
+    Changed some data analysis code and added some front end code
+
+commit 60ad14b1612b26fdd42c488ff076483d57c30d61
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Mon May 29 13:57:01 2023 +1200
+
+    Add .gitignore and change some code
+
+commit 929171421dfa175b0cb202dc4e24bde91da82474
+Author: Maojia-Yao <maojiayao23@gmail.com>
+Date:   Mon May 15 15:08:16 2023 +1200
+
+    first commit
